@@ -3,7 +3,6 @@ import sqlite3
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
-db = sqlite3.connect("instance/db.sqlite")
 
 
 @app.route("/")
@@ -24,6 +23,13 @@ def register():
     cpf = args.get("cpf")
     email = args.get("email")
     password = args.get("password")
+    db = sqlite3.connect("Terceiro-periodo/Programacao-Web/Outros-Codigos/Site-teste/instance/db.sqlite")
+    d = db.cursor()
+    d.execute(
+        "INSERT INTO customers VALUES (?,?,?,?)", (name, cpf, email, password)
+    )
+    db.commit()
+    db.close()
 
     return render_template("register.html") 
 
