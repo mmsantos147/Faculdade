@@ -9,8 +9,8 @@ public class main {
         if (matheus.setName("Matheus")) {
             matheus.setLastName("Santos");
             System.out.println("Hóspede cadastrado: ");
-            System.out.println("Name...:" + matheus.getName());
-            System.out.println("Last name...:" + matheus.getLastName());
+            System.out.println("Name...: " + matheus.getName());
+            System.out.println("Last name...: " + matheus.getLastName());
         } else {
             System.out.println("Nome do hospede invalido");
         }
