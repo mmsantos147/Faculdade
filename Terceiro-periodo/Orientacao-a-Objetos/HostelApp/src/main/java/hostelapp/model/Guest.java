@@ -4,6 +4,20 @@ public class Guest {
     private String name;
     private String lastname;
 
+
+    public Guest () {
+        this("");
+    }
+
+    public Guest (String name) {
+        this(name, "");
+    }
+
+    public Guest (String name, String lastname) {
+        this.name = name;
+        this.lastname = lastname;
+    }
+
     public String getName() {
         return name;
     }
