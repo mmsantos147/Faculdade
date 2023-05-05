@@ -3,7 +3,7 @@ package hostelapp.model;
 public class Guest {
     private String name;
     private String lastname;
-
+    private Address address;
 
     public Guest () {
         this("");
@@ -16,6 +16,14 @@ public class Guest {
     public Guest (String name, String lastname) {
         this.name = name;
         this.lastname = lastname;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getName() {
@@ -37,4 +45,5 @@ public class Guest {
     public String getLastName() {
         return lastname;
     }
+
 }
