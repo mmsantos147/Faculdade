@@ -4,7 +4,7 @@ public class Conta {
     private double saldo;
 
     public Conta (double saldoinicial) {
-        saldo = saldoinicial;
+        this.saldo = saldoinicial;
     }
 
     public double getSaldo() {
@@ -12,13 +12,13 @@ public class Conta {
     }
 
     public boolean depositar (double valor) {
-        this.saldo = saldo + valor;
+        saldo = saldo + valor;
         return true;
     }
 
     public boolean sacar(double valor) {
-        if (saldo >= valor) {
-            this.saldo = saldo - valor;
+        if (this.saldo - valor >= valor) {
+            saldo = saldo - valor;
             return true;
         } else {
             return false;

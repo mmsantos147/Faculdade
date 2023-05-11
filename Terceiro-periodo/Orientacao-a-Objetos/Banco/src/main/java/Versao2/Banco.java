@@ -14,7 +14,7 @@ public class Banco {
     }
 
     public Cliente getCliente(int indice) {
-        return clientes[indice];    
+        return clientes[indice];
     }
 
     public int getNumeroDeClientes() {
