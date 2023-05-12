@@ -1,16 +1,27 @@
-package hostelapp.version2.model;
+package hostelapp.version3.model;
+
+import java.util.*;
 
 public class Guest {
     private String name;
     private String lastname;
-    private Integer id;
+    //private Integer id;
     private Address address;
-    private Date  date;
+    private Date date;
+    private List<Reservation> reservations = new ArrayList<>();
 
-    public Guest (String name, String lastname, int id) {
+    public Guest () {
+        this("");
+    }
+
+    public Guest (String name) {
+        this(name, "");
+    }
+
+    public Guest(String name, String lastname) {
         this.name = name;
         this.lastname = lastname;
-        this.id = id;
+        //this.id = id;
     }
 
     public Date getDate() {
@@ -49,19 +60,16 @@ public class Guest {
         return lastname;
     }
 
-    public int getId() {
-        if (this.id.toString().length() == 11) {
-            return id;
-        } else {
-            return 0;
-        }
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
-    public void setId(int id) {
-        if (this.id.toString().length() == 11) {
-            this.id = id;
-        } else {
-            System.out.println("Invalid personal id, try again");
-        }
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public void addReservation (Reservation reservation){
+        reservations.add(reservation);
     }
 }
+
