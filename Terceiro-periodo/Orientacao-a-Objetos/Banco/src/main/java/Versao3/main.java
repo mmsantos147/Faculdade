@@ -3,43 +3,60 @@ package Versao3;
 public class main {
     public static void main(String[] args) {
         Banco banco = new Banco();
+        Cliente cliente;
 
+        // Cria vários clientes e suas respectivas contas
         Cliente brunoHenrique = new Cliente("Bruno", "Henrique");
-        Conta contaBH = new ContaPoupanca(50000.00, 0.03);
-        brunoHenrique.setConta(contaBH);
+        banco.adicionarCliente(brunoHenrique);
+        cliente = banco.getCliente(0);
+        cliente.adicionarConta(new ContaPoupanca(50000.00, 0.03));
+        cliente.adicionarConta(new ContaCorrente(220000.00, 40000.00));
 
         Cliente evertonRibeiro = new Cliente("Everton", "Ribeiro");
-        Conta contaER = new ContaCorrente(45000.00, 30000.00);
-        evertonRibeiro.setConta(contaER);
+        banco.adicionarCliente(evertonRibeiro);
+        cliente = banco.getCliente(1);
+        cliente.adicionarConta(new ContaCorrente(45000, 30000.00));
 
         Cliente filipeLuis = new Cliente("Filipe", "Luis");
-        Conta contaFilipeLuis = new ContaCorrente(70000);
-        filipeLuis.setConta(contaFilipeLuis);
+        banco.adicionarCliente(filipeLuis);
+        cliente = banco.getCliente(2);
+        cliente.adicionarConta(new ContaPoupanca(150000.00, 0.03));
+        cliente.adicionarConta(new ContaCorrente(70000));
 
         Cliente gabrielBarbosa = new Cliente("Gabriel", "Barbosa");
-        Conta contaGB = new ContaPoupanca(220000.00, 0.03   );
-        gabrielBarbosa.setConta(contaGB);
+        banco.adicionarCliente(gabrielBarbosa);
+        cliente = banco.getCliente(3);
+        cliente.adicionarConta(banco.getCliente(2).getConta(1));
+        cliente.adicionarConta(new ContaPoupanca(220000.00, 0.03));
 
-        Cliente diegoAlves = new Cliente("Diego", "Alves");
-        Conta contaDA = new ContaCorrente(50000.00);
-        diegoAlves.setConta(contaDA);
+        // Gera um Relatório
+        System.out.println("\t\t\tRELATÓRIO DE CLIENTES");
+        System.out.println("\t\t\t================");
+        cliente = null;
 
-        System.out.println("------------------ Relatório Transações ------------------");
-        System.out.println("Recuperando o cliente Bruno Henrique");
-        System.out.println("Sacando R$ 1.200,00: " + contaBH.sacar(1200.00));
-        System.out.println("Depositando R$ 8.525,00: " + contaBH.depositar(8525.00));
-        System.out.println("Sacando R$ 12.800,00: " + contaBH.sacar(12800.00));
-        System.out.println("Sacando R$ 50.000,00: " + contaBH.sacar(50000.00));
-        System.out.println("Cliente [Bruno Henrique] tem o saldo de R$ " + contaBH.getSaldo());
-        System.out.println();
+        for (int i = 0; i < banco.getNumeroDeClientes(); i++) {
+            cliente = banco.getCliente(i);
+            System.out.println();
+            System.out.println("Cliente: " + cliente.getSobrenome() + ", " + cliente.getNome());
+            for (int j = 0; j < cliente.getNumeroDeContas(); j++) {
+                Conta conta = cliente.getConta(j);
+                String tipoConta = "";
 
-        System.out.println("Recuperando o cliente Everton Ribeiro");
-        System.out.println("Cliente [Everton Ribeiro] tem o saldo de R$ " + contaER.getSaldo());
-        System.out.println("Sacando R$ 12.500,00: " + contaER.sacar(12500.00));
-        System.out.println("Sacando R$ 18.500,00: " + contaER.sacar(18500.00));
-        System.out.println("Depositando R$ 3.500,00: " + contaER.depositar(3500.00));
-        System.out.println("Sacando R$ 17.000,00: " + contaER.sacar(17000.00));
-        System.out.println("Sacando R$ 25.000,00: " + contaER.sacar(25000.00));
-        System.out.println("Cliente [Everton Ribeiro] tem o saldo de R$ " + contaER.getSaldo());
+                // Determina o tipo da conta
+                /*** Passo 1:
+                 **** Use o operador instanceof para testar o tipo da conta
+                 **** devemos atribuir o tipo da conta com o valor adequado, tal como
+                 **** "Conta Poupanca" ou "Conta Corrente"
+                 ***/
+                if (conta instanceof ContaCorrente) {
+                    tipoConta = "Conta Corrente";
+                }else{
+                    tipoConta = "Conta Poupança";
+                }
+
+                // Exibe o saldo da conta
+                System.out.println("O saldo da " + tipoConta + " é de R$ " + conta.getSaldo());
+            }
+        }
     }
 }

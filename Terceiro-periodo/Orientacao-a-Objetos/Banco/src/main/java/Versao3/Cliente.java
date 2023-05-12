@@ -1,13 +1,16 @@
 package Versao3;
 
+import java.util.ArrayList;
+
 public class Cliente {
     private String nome;
     private String sobrenome;
-    private Conta conta;
+    private ArrayList<Conta> contas;
 
     public Cliente (String nome, String sobrenome) {
         this.nome = nome;
         this.sobrenome = sobrenome;
+        this.contas = new ArrayList<>();
     }
 
     public String getNome() {
@@ -26,11 +29,15 @@ public class Cliente {
         this.sobrenome = sobrenome;
     }
 
-    public Conta getConta() {
-        return conta;
+    public void adicionarConta(Conta conta){
+        this.contas.add(conta);
     }
 
-    public void setConta(Conta conta) {
-        this.conta = conta;
+    public Conta getConta(Integer id) {
+        return contas.get(id);
+    }
+
+    public int getNumeroDeContas() {
+        return this.contas.size();
     }
 }
