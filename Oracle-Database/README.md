@@ -1,1 +1,1 @@
-## Estudos sobre Oracle Database, inclui comandos do SQL*Plus e Rman
+# Estudos sobre Oracle Database, inclui comandos do SQL*Plus e Rman
