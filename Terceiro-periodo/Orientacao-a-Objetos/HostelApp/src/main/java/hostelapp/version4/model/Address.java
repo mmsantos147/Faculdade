@@ -1,4 +1,4 @@
-package hostelapp.version3.model;
+package hostelapp.version4.model;
 
 public class Address {
     private String email;
