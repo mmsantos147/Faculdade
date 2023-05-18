@@ -42,12 +42,7 @@ public class main {
                 Conta conta = cliente.getConta(j);
                 String tipoConta = "";
 
-                // Determina o tipo da conta
-                /*** Passo 1:
-                 **** Use o operador instanceof para testar o tipo da conta
-                 **** devemos atribuir o tipo da conta com o valor adequado, tal como
-                 **** "Conta Poupanca" ou "Conta Corrente"
-                 ***/
+
                 if (conta instanceof ContaCorrente) {
                     tipoConta = "Conta Corrente";
                 }else{
