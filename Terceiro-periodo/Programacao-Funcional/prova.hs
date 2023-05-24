@@ -1,3 +1,4 @@
+-- Estudo para a primeira prova de Haskell
 -- Exercicio 1
 type Cidade = String
 type Pass = Int
