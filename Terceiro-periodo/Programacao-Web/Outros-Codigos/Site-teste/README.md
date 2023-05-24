@@ -1,4 +1,4 @@
-## Site teste
+# Site teste
 
 ---
 Código base para o site Teste, inclui:
