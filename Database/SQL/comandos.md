@@ -3,6 +3,7 @@
 
 - SELECT: usado para selecionar dados, tabelas ou bancos.
     - Exemplo: SELECT * FROM nome_tabela; //seleciona todos os dados da tabela
+    - SELECT TOP 100 name FROM nome_tabela; //seleciona o top 100 nomes da tabela
 - WHERE: funciona como um especificador/filtro.
     - Exemplo: SELECT * FROM emplyees WHERE job='senior developer'; //seleciona todos os empregados com o cargo de desenvolvedor senior
 - CREATE: usado para a criação de tabelas, bancos,etc.
