@@ -11,4 +11,5 @@
 - DROP: usado para excluir usuários, tabelas, bancos, etc.
     - Exemplo: DROP TABLE nome_tabela; //exclui a tabela nome_tabela
     - DROP DATABASE mydb; //exclui o banco mydb
-   
+- ALTER: usado para alterar informações e características de tabelas ou bancos.
+    - Exemplo: ALTER TABLE nome_tabela ADD coluna varchar(100); //adiciona uma nova coluna na tabela 
