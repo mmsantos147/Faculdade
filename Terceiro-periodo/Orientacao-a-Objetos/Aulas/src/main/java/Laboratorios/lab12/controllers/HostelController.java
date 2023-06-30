@@ -5,7 +5,6 @@ import Laboratorios.lab12.domain.Hostel;
 
 public class HostelController {
     private Hostel hostel;
-
     public Hostel getHostel() {
         return hostel;
     }

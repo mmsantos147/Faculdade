@@ -3,6 +3,7 @@ package Laboratorios.lab12.domain;
 public class Guest {
     private String name;
     private String lastname;
+    private String cpf;
     private String email;
     private Title title;
     private Date date;
@@ -18,6 +19,16 @@ public class Guest {
     public Guest(String name, String lastname, String email, Title title, Date date, Address address) {
         this.name = name;
         this.lastname = lastname;
+        this.email = email;
+        this.title = title;
+        this.date = date;
+        this.address = address;
+    }
+
+    public Guest(String name, String lastname, String cpf, String email, Title title, Date date, Address address) {
+        this.name = name;
+        this.lastname = lastname;
+        this.cpf = cpf;
         this.email = email;
         this.title = title;
         this.date = date;
@@ -72,11 +83,20 @@ public class Guest {
         this.address = address;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     @Override
     public String toString() {
         return "Guest{" +
                 "name='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
+                ", cpf='"+ cpf + '\'' +
                 ", "  + address.toString() +
                 '}';
     }
