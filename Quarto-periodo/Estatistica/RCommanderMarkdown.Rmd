@@ -1,0 +1,3 @@
+
+load("/home/2022.1.08.025/Desktop/Quarto-periodo/Estatistica/RCommanderMarkdown.Rmd")
+
