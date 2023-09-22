@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ChoreServiceTest {
 
     @Test
+    @DisplayName("#addChore > When description invalid > Throw exception")
     void addChoreWhenTheDescriptionIsInvalidThrowAnException() {
         ChoreService service = new ChoreService();
         assertAll(

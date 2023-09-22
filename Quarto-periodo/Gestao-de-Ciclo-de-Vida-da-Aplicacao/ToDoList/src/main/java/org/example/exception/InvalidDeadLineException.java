@@ -1,6 +1,6 @@
 package org.example.exception;
 
-public class InvalidDeadLineException extends Exception {
+public class InvalidDeadLineException extends RuntimeException {
 
     public InvalidDeadLineException (String message) {
         super(message);
