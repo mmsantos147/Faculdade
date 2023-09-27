@@ -196,28 +196,46 @@ public class CalculatorTest {
     @Test
     @DisplayName("#divide > When both numbers are positive > return positive number")
     void divideBothPositive() {
-        int result = calculator.divide(5, 1);
-        Assertions.assertEquals(5,result);
+        float result = calculator.divide(5, 1);
+        float result2 =  calculator.divide(3,2);
+        Assertions.assertAll(
+                ()->Assertions.assertEquals(5,result),
+                ()->Assertions.assertEquals(1.5,result2)
+        );
+
     }
 
     @Test
     @DisplayName("#divide > When the dividend is a negative number > return negative number")
     void dividendNegative() {
-        int result = calculator.divide(-5, 1);
-        Assertions.assertEquals(-5,result);
+        float result = calculator.divide(-5, 1);
+        float result2 =  calculator.divide(-3,2);
+        Assertions.assertAll(
+                ()->Assertions.assertEquals(-5,result),
+                ()->Assertions.assertEquals(-1.5,result2)
+        );
+
     }
 
     @Test
     @DisplayName("#divide > When the divider is a negative number > return negative number")
     void dividerNegative() {
-        int result = calculator.divide(5, -1);
-        Assertions.assertEquals(-5,result);
+        float result = calculator.divide(5, -1);
+        float result2 =  calculator.divide(3,-2);
+        Assertions.assertAll(
+                ()->Assertions.assertEquals(-5,result),
+                ()->Assertions.assertEquals(-1.5,result2)
+        );            
     }
 
     @Test
     @DisplayName("#divide > When both numbers are negative > return positive number")
     void divideBothNegative() {
-        int result = calculator.divide(-5, -1);
-        Assertions.assertEquals(5,result);
+        float result = calculator.divide(-5, -1);
+        float result2 =  calculator.divide(-3,-2);
+        Assertions.assertAll(
+                ()->Assertions.assertEquals(5,result),
+                ()->Assertions.assertEquals(1.5,result2)
+        );
     }
     }
