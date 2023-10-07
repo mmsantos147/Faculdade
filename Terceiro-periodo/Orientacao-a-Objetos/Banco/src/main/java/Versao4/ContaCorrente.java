@@ -1,4 +1,4 @@
-package Versao4;
+package versao4;
 
 public class ContaCorrente extends Conta {
     private double chequeEspecial;

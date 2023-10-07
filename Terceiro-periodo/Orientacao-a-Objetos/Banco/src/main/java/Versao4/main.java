@@ -1,6 +1,6 @@
-package Versao4;
+package versao4;
 
-import Versao4.relatorios.*;
+import versao4.relatorios.*;
 
 public class main {
     public static void main(String[] args) {

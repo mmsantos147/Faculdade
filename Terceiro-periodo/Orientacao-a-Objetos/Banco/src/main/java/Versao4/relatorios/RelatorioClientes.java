@@ -1,9 +1,8 @@
-package Versao4.relatorios;
+package versao4.relatorios;
 
-import Versao4.*;
+import versao4.*;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Locale;
 
 public class RelatorioClientes {

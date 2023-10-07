@@ -1,4 +1,4 @@
-package Versao4;
+package versao4;
 
 public class Conta {
     protected double saldo;

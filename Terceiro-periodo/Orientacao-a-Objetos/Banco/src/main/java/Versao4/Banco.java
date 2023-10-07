@@ -1,8 +1,8 @@
-package Versao4;
+package versao4;
 
 import java.util.ArrayList;
 
-public class Banco {
+public class  Banco {
     private static Banco banco = new Banco();
     private ArrayList<Cliente> clientes;
 
