@@ -3,6 +3,7 @@ package org.example.service;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.domain.Chore;
+import org.example.enumerator.ChoreFilter;
 import org.example.exception.*;
 
 import java.time.LocalDate;
@@ -45,10 +46,10 @@ public class ChoreService {
 //        chore.setDeadline(deadline);
 //        chore.setIsCompleted(Boolean.FALSE);
         Chore chore = Chore.builder()
-                        .description(description)
-                                .deadline(deadline)
-                                        .isCompleted(Boolean.FALSE)
-                                                .build();
+                .description(description)
+                .deadline(deadline)
+                .isCompleted(Boolean.FALSE)
+                .build();
         choreList.add(chore);
         return chore;
     }
@@ -62,7 +63,7 @@ public class ChoreService {
             throw new EmptyChoreException("Unable to remove a chore from an empty list");
         }
         boolean isChoreExist = this.choreList.stream().anyMatch((chore -> chore.getDescription().equals(description)
-        && chore.getDeadline().isEqual(deadline)));
+                && chore.getDeadline().isEqual(deadline)));
         if(!isChoreExist) {
             throw new ChoreDoesntExistException("The given chore does not exist");
         }
@@ -70,5 +71,40 @@ public class ChoreService {
         this.choreList = this.choreList.stream().filter(chore -> !chore.getDescription().equals(description)
                 && !chore.getDeadline().isEqual(deadline)).collect(Collectors.toList());
     }
+
+    public void toggleChore(String description, LocalDate deadline) {
+        boolean isChoreExist = this.choreList.stream().anyMatch((chore) -> chore.getDescription().equals(description) &&
+                chore.getDeadline().equals(deadline));
+
+        if (!isChoreExist) {
+            throw new ChoreDoesntExistException("The given chore does not exist. Impossible to toggle");
+        }
+
+        this.choreList = this.choreList.stream().map(chore -> {
+            if (!chore.getDescription().equals(description) && !chore.getDeadline().equals(deadline)) {
+                return chore;
+            }
+            if (chore.getDeadline().isBefore(LocalDate.now()) && chore.getIsCompleted()){
+                throw new ToggleChoreWithInvalidDeadlineException("Unable to toggle a completed chore with a past deadline");
+            }
+            chore.setIsCompleted(!chore.getIsCompleted());
+            return chore;
+        }).collect(Collectors.toList());
+    }
+
+    public List<Chore> filterChore(ChoreFilter filter) {
+        switch (filter) {
+            case COMPLETED:
+                return this.choreList.stream().filter(Chore::getIsCompleted).collect(Collectors.toList());
+
+            case UNCOMPLETED:
+                return this.choreList.stream().filter(chore -> !chore.getIsCompleted()).collect(Collectors.toList());
+
+            default:
+                return this.choreList;
+        }
+    }
+
+    private final Predicate<List<Chore>> isChoreListEmpty = List::isEmpty;
 
 }
