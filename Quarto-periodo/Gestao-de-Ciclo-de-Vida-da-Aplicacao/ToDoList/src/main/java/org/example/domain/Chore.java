@@ -13,7 +13,7 @@ public class Chore {
 
     private String description;
 
-    private  Boolean isCompleted;
+    private Boolean isCompleted;
 
     private LocalDate deadline;
 

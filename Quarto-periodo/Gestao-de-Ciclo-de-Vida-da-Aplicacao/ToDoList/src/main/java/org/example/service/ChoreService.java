@@ -6,6 +6,7 @@ import org.example.domain.Chore;
 import org.example.enumerator.ChoreFilter;
 import org.example.exception.*;
 
+import java.lang.annotation.Retention;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +104,67 @@ public class ChoreService {
             default:
                 return this.choreList;
         }
+    }
+
+    public String printChore() {
+        StringBuilder output = new StringBuilder();
+        if(choreList == null || choreList.isEmpty()) return "Chore List is Empty";
+
+        for (Chore chore : choreList) {
+            output.append("Descrição: ").append(chore.getDescription()).append(" Deadline: ").append(chore.getDeadline())
+                    .append(" Status: ").append(chore.getIsCompleted() ? "Completa" : "Incompleta").append("\n");
+        }
+        return output.toString();
+    }
+
+    public boolean editChore(String description, LocalDate deadline, LocalDate newDeadline) {
+        boolean isChoreExist = this.choreList.stream().anyMatch((chore) -> chore.getDescription().equals(description) &&
+                chore.getDeadline().equals(deadline));
+
+        if (!isChoreExist) {
+            throw new ChoreDoesntExistException("The given chore does not exist. Impossible to toggle");
+        }
+        for (Chore chore : choreList) {
+            if (chore.getDescription().equals(description) && chore.getDeadline().equals(deadline) ) {
+                chore.setDeadline(newDeadline);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean editChore(String description, LocalDate deadline, String newDescription) {
+        boolean isChoreExist = this.choreList.stream().anyMatch((chore) -> chore.getDescription().equals(description) &&
+                chore.getDeadline().equals(deadline));
+
+        if (!isChoreExist) {
+            throw new ChoreDoesntExistException("The given chore does not exist. Impossible to toggle");
+        }
+
+        for (Chore chore : choreList) {
+            if (chore.getDescription().equals(description) && chore.getDeadline().equals(deadline) ) {
+                chore.setDescription(newDescription);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean editChore(String description, LocalDate deadline, String newDescription, LocalDate newDeadline) {
+        boolean isChoreExist = this.choreList.stream().anyMatch((chore) -> chore.getDescription().equals(description) &&
+                chore.getDeadline().equals(deadline));
+
+        if (!isChoreExist) {
+            throw new ChoreDoesntExistException("The given chore does not exist. Impossible to toggle");
+        }
+
+        for (Chore chore : choreList) {
+            if (chore.getDescription().equals(description) && chore.getDeadline().equals(deadline) ) {
+                chore.setDescription(newDescription);
+                chore.setDeadline(newDeadline);
+                return true;
+            }
+        }
+        return false;
     }
 
     private final Predicate<List<Chore>> isChoreListEmpty = List::isEmpty;
