@@ -103,6 +103,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#deleteChore > When the list is empty > Throw an exception")
     void deleteChoreWhenTheChoresListIsEmpty() {
         ChoreService service = new ChoreService();
         assertThrows(EmptyChoreException.class,
@@ -111,6 +112,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#deleteChore > When the list is not empty > When the chore does not exist > Throw an exception")
     void deleteChoreWhenChoreDoesntExist() {
         ChoreService service = new ChoreService();
         service.addChore("Description", LocalDate.now());
@@ -120,6 +122,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#deleteChore > When the list is not empty > When the chore exists > Delete the chore")
     void deleteChoreWhenChoreExistNotEmpty() {
         ChoreService service = new ChoreService();
         service.addChore("Chore #01", LocalDate.now().plusDays(1));
@@ -130,6 +133,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#toggleChore > When the deadline is valid > Toggle the chore")
     void toggleChoreWhenValidDeadline() {
         ChoreService service = new ChoreService();
         service.addChore("Chore #01", LocalDate.now());
@@ -143,6 +147,23 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#toggleChore > When the deadline is valid > When toggle the chore twice > Toggle chore")
+    void toggleChoreWhenTheDeadlineIsValidWhenToggleTheChoreTwiceToggleTheChore() {
+        ChoreService service = new ChoreService();
+        service.addChore("Chore #01", LocalDate.now());
+        assertFalse(service.getChores().get(0).getIsCompleted());
+
+        assertDoesNotThrow(() -> service.toggleChore("Chore #01", LocalDate.now()));
+
+        assertTrue(service.getChores().get(0).getIsCompleted());
+
+        assertDoesNotThrow(() -> service.toggleChore("Chore #01", LocalDate.now()));
+
+        assertFalse(service.getChores().get(0).getIsCompleted());
+    }
+
+    @Test
+    @DisplayName("#toggleChore > When the chore does not exist > Throw an exception")
     void toggleChoreWhenChoreDoesNotExist() {
         ChoreService service = new ChoreService();
         assertThrows(ChoreDoesntExistException.class,
@@ -151,6 +172,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#toggleChore > When the deadline is invalid > When the status is uncompleted > Toggle the chore")
     void toggleChoreWhenInvalidDeadline() {
         ChoreService service = new ChoreService();
         service.addChore("Chore #01", LocalDate.now().minusDays(1));
@@ -169,6 +191,8 @@ public class ChoreServiceTest {
         assertFalse(service.getChores().get(0).getIsCompleted());
     }
 
+    @Test
+    @DisplayName("#toggleChore > When the deadline is invalid > When status is completed > Throw an exception")
     void toggleChoreWhenInvalidDeadlineWhenStatusCompleted() {
         ChoreService service = new ChoreService();
         service.getChores().add(new Chore("Chore #01", Boolean.TRUE, LocalDate.now().minusDays(1)));
@@ -178,6 +202,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#filterChores > When the filter is COMPLETED > When the list is empty > Return an empty list")
     void filterWhenStatusCompletedListIsEmpty() {
         ChoreService service = new ChoreService();
         List<Chore> response = service.filterChore(ChoreFilter.COMPLETED);
@@ -185,6 +210,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#filterChores > When the filter is COMPLETED > When the list is not empty > Return the filtered chores")
     void filterWhenStatusCompletedListIsNotEmpty() {
         ChoreService service = new ChoreService();
         service.getChores().add(new Chore("Chore #01",Boolean.FALSE, LocalDate.now()));
@@ -198,6 +224,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#filterChores > When the filter is UNCOMPLETED > When the list is empty > Return an empty list")
     void filterWhenStatusUncompletedListIsEmpty() {
         ChoreService service = new ChoreService();
         List<Chore> response = service.filterChore(ChoreFilter.UNCOMPLETED);
@@ -205,6 +232,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#filterChores > When the filter is UNCOMPLETED > When the list is not empty > Return the filtered chores")
     void filterWhenStatusUncompletedListIsNotEmpty() {
         ChoreService service = new ChoreService();
         service.getChores().add(new Chore("Chore #01",Boolean.FALSE, LocalDate.now()));
@@ -218,6 +246,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#filterChores > When the filter is ALL > When the list is empty > Return all chores")
     void filterAllListIsEmpty() {
         ChoreService service = new ChoreService();
         List<Chore> response = service.filterChore(ChoreFilter.ALL);
@@ -226,6 +255,7 @@ public class ChoreServiceTest {
     }
 
     @Test
+    @DisplayName("#filterChores > When the filter is ALL > When the list is not empty > Return all chores")
     void filterAllListIsNotEmpty() {
         ChoreService service = new ChoreService();
         service.getChores().add(new Chore("Chore #01",Boolean.FALSE, LocalDate.now()));
@@ -239,4 +269,62 @@ public class ChoreServiceTest {
                 () -> assertEquals(Boolean.TRUE, response.get(1).getIsCompleted())
         );
     }
+
+    @Test
+    @DisplayName("#editChore > When the Chore does not exist > throw exception")
+    void editChoreWhenChoreDoesNotExist() {
+        ChoreService service = new ChoreService();
+        assertAll(
+                ()->assertThrows(ChoreDoesntExistException.class,
+                        ()-> service.editChore("Chore 1", LocalDate.now(), "Chore 2")),
+                ()->assertThrows(ChoreDoesntExistException.class,
+                        ()->service.editChore("Chore 1", LocalDate.now(), LocalDate.now().plusDays(1))),
+                ()->assertThrows(ChoreDoesntExistException.class,
+                        ()->service.editChore("Chore 1", LocalDate.now(), "Chore 2", LocalDate.now().plusDays(1)))
+        );
+    }
+
+    @Test
+    @DisplayName("#editChore > Editing only the deadline > edit deadline")
+    void editChoreEditingOnlyDeadline() {
+        ChoreService service = new ChoreService();
+        service.getChores().add( new Chore("Chore 1", Boolean.FALSE, LocalDate.now()));
+        assertEquals(true, service.editChore("Chore 1", LocalDate.now(), LocalDate.now().plusDays(1)));
+    }
+
+    @Test
+    @DisplayName("#editChore > Editing only the description > edit description")
+    void editChoreEditingOnlyDescription() {
+        ChoreService service = new ChoreService();
+        service.getChores().add( new Chore("Chore 1", Boolean.FALSE, LocalDate.now()));
+        assertEquals(true, service.editChore("Chore 1", LocalDate.now(), "Chore 2"));
+    }
+
+    @Test
+    @DisplayName("#editChore > Editing the deadline and description > edit deadline and description")
+    void editChoreEditingDescriptionAndDeadline() {
+        ChoreService service = new ChoreService();
+        service.getChores().add( new Chore("Chore 1", Boolean.FALSE, LocalDate.now()));
+        assertEquals(true, service.editChore("Chore 1", LocalDate.now(), "Chore 2", LocalDate.now().plusDays(1)));
+    }
+
+    @Test
+    @DisplayName("#printChores > When the list is not empty > Print the chores")
+    void printChoresWhenListEmpty(){
+        ChoreService service = new ChoreService();
+        assertEquals("Chore List is Empty", service.printChore());
+    }
+    @Test
+    @DisplayName("#printChores > When the list is not empty > Print the chores")
+    void printChoresWhenListIsNotEmpty() {
+        ChoreService service = new ChoreService();
+        service.getChores().add(new Chore("Chore 1", false, LocalDate.now().plusDays(1)));
+        service.getChores().add(new Chore("Chore 2", true, LocalDate.now().plusDays(2)));
+
+        String expectedOutput = "Descrição: Chore 1 Deadline: " + LocalDate.now().plusDays(1) + " Status: Incompleta" + "\n" +
+                "Descrição: Chore 2 Deadline: " + LocalDate.now().plusDays(2) + " Status: Completa" + "\n";
+
+        assertEquals(expectedOutput, service.printChore());
+    }
 }
+
