@@ -1,3 +1,11 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "lexico.c"
+%}
+
 %token T_PROGRAMA
 %token T_INICIO
 %token T_FIM
@@ -31,6 +39,13 @@
 %token T_INTEIRO
 
 %start programa
+
+%left T_E T_OU
+%left T_IGUAL
+%left T_MAIOR T_MENOR
+%left T_MAIS T_MENOS
+%left T_VEZES T_DIV
+
 
 %%
 
@@ -123,3 +138,9 @@ termo
     ;
 
 %%
+
+int main () {
+   yyparse();
+   printf("Programa OK \n");
+   return 0;
+}
