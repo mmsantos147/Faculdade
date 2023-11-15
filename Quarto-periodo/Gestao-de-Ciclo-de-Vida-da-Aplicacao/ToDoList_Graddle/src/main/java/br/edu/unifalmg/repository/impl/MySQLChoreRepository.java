@@ -51,7 +51,6 @@ public class MySQLChoreRepository implements ChoreRepository {
                         .description(resultSet.getString("description"))
                         .isCompleted(resultSet.getBoolean("isCompleted"))
                         .deadline(resultSet.getDate("deadline").toLocalDate())
-                        .id(resultSet.getLong("id"))
                         .build();
                 chores.add(chore);
             }
@@ -80,7 +79,6 @@ public class MySQLChoreRepository implements ChoreRepository {
             preparedStatement.setString(1, chore.getDescription());
             preparedStatement.setBoolean(2, chore.getIsCompleted());
             preparedStatement.setDate(3, Date.valueOf(chore.getDeadline()));
-            preparedStatement.setLong(4, chore.getId());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 return Boolean.TRUE;
@@ -91,33 +89,7 @@ public class MySQLChoreRepository implements ChoreRepository {
         } finally {
             closeConnections();
         }
-        return Boolean.FALSE;
-    }
-
-    @Override
-    public boolean update(Chore chore) {
-        if (!connectToMySQL()) {
-            return Boolean.FALSE;
-        }
-
-        try {
-            preparedStatement = connection.prepareStatement(
-                    ChoreBook.UPDATE_CHORE);
-            preparedStatement.setString(1, chore.getDescription());
-            preparedStatement.setBoolean(2, chore.getIsCompleted());
-            preparedStatement.setDate(3, Date.valueOf(chore.getDeadline()));
-            preparedStatement.setLong(4, chore.getId());
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows > 0) {
-                return Boolean.TRUE;
-            }
-
-    } catch (SQLException exception) {
-        System.out.println("Error when inserting a new chore on database");
-    } finally {
-        closeConnections();
-    }
-        return Boolean.FALSE;
+        return false;
     }
 
     private boolean connectToMySQL() {
@@ -125,7 +97,7 @@ public class MySQLChoreRepository implements ChoreRepository {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager
                     .getConnection("jdbc:mysql://localhost:3307/db?"
-                            + "user=admin&password=senha");
+                            + "user=rey&password=senha");
             return Boolean.TRUE;
         } catch (ClassNotFoundException | SQLException exception) {
             System.out.println("Error when connecting to database. Try again later");
