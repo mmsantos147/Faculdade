@@ -5,8 +5,17 @@ import br.edu.unifalmg.enumerator.ChoreFilter;
 import br.edu.unifalmg.exception.*;
 import br.edu.unifalmg.repository.ChoreRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -95,6 +104,24 @@ public class ChoreService {
         return this.chores;
     }
 
+    public Chore getChore(String description, LocalDate deadline) {
+
+        if (description == null || description.isEmpty() || description.isBlank()) {
+            throw new InvalidDescriptionException("The description cannot be null or empty");
+        }
+
+        if (deadline == null) {
+            throw new InvalidDeadlineException("The deadline cannot be null or before the current date");
+        }
+
+        for (Chore chore: chores) {
+            if(chore.getDescription().equals(description) && chore.getDeadline().equals(deadline)) {
+                return chore;
+            }
+        }
+
+        throw new ChoreNotFoundException("The chore does not exists.");
+    }
     /**
      * Method to delete a given chore.
      *
@@ -160,6 +187,63 @@ public class ChoreService {
         }
     }
 
+    public String printChore() {
+        StringBuilder output = new StringBuilder();
+        if(chores == null || chores.isEmpty()) return "Chore List is Empty";
+
+        for (Chore chore : chores) {
+            output.append("Descrição: ").append(chore.getDescription()).append(" Deadline: ").append(chore.getDeadline())
+                    .append(" Status: ").append(chore.getIsCompleted() ? "Completa" : "Incompleta").append("\n");
+        }
+        return output.toString();
+    }
+
+    public boolean editChore(String description, LocalDate deadline, String newDescription) {
+        boolean isChoreExist = this.chores.stream().anyMatch((chore) -> chore.getDescription().equals(description) &&
+                chore.getDeadline().equals(deadline));
+
+        if (!isChoreExist) {
+            throw new ChoreNotFoundException("The given chore does not exist. Impossible to toggle");
+        }
+
+        for (Chore chore : chores) {
+            if (chore.getDescription().equals(description) && chore.getDeadline().equals(deadline) ) {
+                chore.setDescription(newDescription);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean editChore(String description, LocalDate deadline, String newDescription, LocalDate newDeadline) {
+        boolean isChoreExist = this.chores.stream().anyMatch((chore) -> chore.getDescription().equals(description) &&
+                chore.getDeadline().equals(deadline));
+
+        if (!isChoreExist) {
+            throw new ChoreNotFoundException("The given chore does not exist. Impossible to toggle");
+        }
+
+        for (Chore chore : chores) {
+            if (chore.getDescription().equals(description) && chore.getDeadline().equals(deadline) ) {
+                chore.setDescription(newDescription);
+                chore.setDeadline(newDeadline);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void readData() throws FileNotFoundException {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_DATE_TIME))
+                .create();
+
+        JsonReader reader = new JsonReader(new FileReader("src/main/resources/chores.json"));
+        Type choreListType = new TypeToken<List<Chore>>(){}.getType();
+
+        List<Chore> newChores = gson.fromJson(reader, choreListType);
+
+        this.chores.addAll(newChores);
+    }
     /**
      * Load the chores from the repository.
      * The repository can return NULL if no chores are found.
