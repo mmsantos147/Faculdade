@@ -94,32 +94,6 @@ public class MySQLChoreRepository implements ChoreRepository {
         return Boolean.FALSE;
     }
 
-    @Override
-    public boolean update(Chore chore) {
-        if (!connectToMySQL()) {
-            return Boolean.FALSE;
-        }
-
-        try {
-            preparedStatement = connection.prepareStatement(
-                    ChoreBook.UPDATE_CHORE);
-            preparedStatement.setString(1, chore.getDescription());
-            preparedStatement.setBoolean(2, chore.getIsCompleted());
-            preparedStatement.setDate(3, Date.valueOf(chore.getDeadline()));
-            preparedStatement.setLong(4, chore.getId());
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows > 0) {
-                return Boolean.TRUE;
-            }
-
-    } catch (SQLException exception) {
-        System.out.println("Error when inserting a new chore on database");
-    } finally {
-        closeConnections();
-    }
-        return Boolean.FALSE;
-    }
-
     private boolean connectToMySQL() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
