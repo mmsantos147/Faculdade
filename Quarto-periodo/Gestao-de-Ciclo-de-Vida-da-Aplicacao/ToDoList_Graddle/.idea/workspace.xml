@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b5fdf34-f4e8-4197-ab0e-950772ac40c1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../ToDoList/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ToDoList/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/repository/ChoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/repository/ChoreRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/repository/book/ChoreBook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/repository/book/ChoreBook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/repository/impl/FileChoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/repository/impl/FileChoreRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/repository/impl/MySQLChoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/repository/impl/MySQLChoreRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/service/ChoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/edu/unifalmg/service/ChoreService.java" afterDir="false" />
-    </list>
+    <list default="true" id="8b5fdf34-f4e8-4197-ab0e-950772ac40c1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,23 +28,23 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/diohe/OneDrive/Documentos/GitHub/Faculdade/Quarto-periodo/Gestao-de-Ciclo-de-Vida-da-Aplicacao/ToDoList",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "onboarding.tips.debug.path": "C:/Users/diohe/OneDrive/Documentos/GitHub/Faculdade/Quarto-periodo/Gestao-de-Ciclo-de-Vida-da-Aplicacao/ToDoList_Graddle/src/main/java/org/example/Main.java",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/update-database&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/diohe/OneDrive/Documentos/GitHub/Faculdade/Quarto-periodo/Gestao-de-Ciclo-de-Vida-da-Aplicacao/ToDoList&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/diohe/OneDrive/Documentos/GitHub/Faculdade/Quarto-periodo/Gestao-de-Ciclo-de-Vida-da-Aplicacao/ToDoList_Graddle/src/main/java/org/example/Main.java&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -64,6 +55,7 @@
       <updated>1699462670787</updated>
       <workItem from="1699462671815" duration="1878000" />
       <workItem from="1700052795759" duration="2772000" />
+      <workItem from="1700503974759" duration="1000" />
     </task>
     <servers />
   </component>
