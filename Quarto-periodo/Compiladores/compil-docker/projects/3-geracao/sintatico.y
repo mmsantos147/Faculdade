@@ -47,9 +47,7 @@ int tipo;
 %left T_E T_OU
 %left T_IGUAL
 %left T_MAIOR T_MENOR
-%left T_MAIS T_MENOS
 %left T_VEZES T_DIV
-
 
 %%
 
@@ -59,7 +57,7 @@ programa
             mostraTabela();
             empilha (contaVar);
             if(contaVar)
-                fprintf(yyout, "\tAMEM\n");
+                fprintf(yyout, "\tAMEM\t%d\n", contaVar);
         }
         T_INICIO lista_comandos T_FIM
         { 
@@ -119,9 +117,9 @@ lista_comandos
 
 comando
     : entrada_saida
-    | repeticao
-    | selecao
     | atribuicao
+    | selecao
+    | repeticao
     ;
 
 entrada_saida
@@ -140,31 +138,25 @@ entrada
 
 saida 
     : T_ESCREVA expressao
-    {fprintf(yyout, "\tESCR\n");}
+    {desempilha(); fprintf(yyout, "\tESCR\n");}
     ;
 
-repeticao
-    : T_ENQTO 
-        { 
-            fprintf(yyout, "L%d\tNADA\n", ++rotulo);
-            empilha(rotulo);
-        }
-    expressao T_FACA 
+atribuicao
+    : T_IDENTIF 
         {
-            int t = desempilha();
-            if(t != LOG)
-                yyerror("Incompatibilidade de tipo!");
-            fprintf(yyout, "\tDSVF\tL%d\n", ++rotulo);
-            empilha(rotulo);
+            int pos = buscaSimbolo(atomo);
+            empilha(pos);
         }
-    lista_comandos T_FIMENQTO
+      T_ATRIB expressao
         { 
-            int rot1 = desempilha();
-            int rot2 = desempilha();
-            fprintf(yyout, "\tDSVS\tL%d\n", rot2);
-            fprintf(yyout, "L%d\tNADA\n", rot1);
+            int tip = desempilha();
+            int pos = desempilha();
+            if(tabSimb[pos].tip != tip)
+                yyerror("Incompatibilidade de tipo!");
+            fprintf(yyout, "\tARZG\t%d\n", tabSimb[pos].end);
         }
     ;
+
 
 selecao
     : T_SE expressao T_ENTAO 
@@ -190,21 +182,30 @@ selecao
 
     ;
 
-atribuicao
-    : T_IDENTIF 
-        {
-            int pos = buscaSimbolo(atomo);
-            empilha(pos);
-        }
-      T_ATRIB expressao
+repeticao
+    : T_ENQTO 
         { 
-            int tip = desempilha();
-            int pos = desempilha();
-            if(tabSimb[pos].tip != tip)
+            fprintf(yyout, "L%d\tNADA\n", ++rotulo);
+            empilha(rotulo);
+        }
+    expressao T_FACA 
+        {
+            int t = desempilha();
+            if(t != LOG)
                 yyerror("Incompatibilidade de tipo!");
-            fprintf(yyout, "\tARZG\t%d\n", tabSimb[pos].end);
+            fprintf(yyout, "\tDSVF\tL%d\n", ++rotulo);
+            empilha(rotulo);
+        }
+    lista_comandos T_FIMENQTO
+        { 
+            int rot1 = desempilha();
+            int rot2 = desempilha();
+            fprintf(yyout, "\tDSVS\tL%d\n", rot2);
+            fprintf(yyout, "L%d\tNADA\n", rot1);
         }
     ;
+
+
 expressao
     : expressao T_VEZES expressao
         {
@@ -224,7 +225,7 @@ expressao
     | expressao T_MENOS expressao
         {
             testaTipo(INT,INT,INT); 
-            fprintf(yyout, "\tSUBT\n");
+            fprintf(yyout, "\tSUBT\tLy\n");
         }
     | expressao T_MAIOR expressao
         {
