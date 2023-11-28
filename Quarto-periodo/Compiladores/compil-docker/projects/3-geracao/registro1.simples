@@ -5,12 +5,12 @@ programa declararegistro
     fimdef c
 
     def
-        registro c x
+        registro c m
         inteiro y 
     fimdef d 
 
     inteiro x
-    registro d y 
+    registro d l 
 
 inicio
 fimprograma

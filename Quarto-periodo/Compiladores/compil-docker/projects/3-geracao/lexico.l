@@ -49,6 +49,9 @@ nao         return T_NAO;
 
 inteiro     return T_INTEIRO;
 logico      return T_LOGICO;
+def         return T_DEF;
+fimdef      return T_FIMDEF;
+registro    return T_REGISTRO;
 V           return T_V;
 F           return T_F;
 
