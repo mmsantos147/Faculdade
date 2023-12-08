@@ -1,13 +1,9 @@
 programa teste
    inteiro a b
-
 inicio
     leia a 
-    se a > 10 entao
-        escreva a * 10
-    senao
-        escreva a - 10
-    fimse
+    a <- a * 10
+    escreva a
     b <- a * 10
     escreva b
 fimprograma
