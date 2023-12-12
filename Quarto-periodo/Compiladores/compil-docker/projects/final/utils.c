@@ -67,7 +67,7 @@ int buscaListaEncadeadaEndereco(ptno lista, char* registro) {
         lista = lista->prox;
     if(!lista){
         char msg[200];
-        sprintf(msg,"O campo [%s] não é registro", registro);
+        sprintf(msg,"O campo [%s] não existe na estrutura", registro);
         yyerror(msg);
     }
     return lista->info.desl;

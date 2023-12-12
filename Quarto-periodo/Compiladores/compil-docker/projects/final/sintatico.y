@@ -13,7 +13,6 @@ int tam = 1;
 int des = 0;
 int pos = 0;
 int tamReg = 0;
-char identif[200];
 struct no *lista;
 struct no lista_campos;
 %}
@@ -248,19 +247,15 @@ entrada
           // Se for registro, tem que fazer uma repetição do
           // TAM do registro de leituras
           if (tabSimb[pos].tip == REG){
-            for (int i = 0; i < tam; i++)
+            for (int i = 0; i < tam; i++){
                fprintf(yyout, "\tLEIA\n");
+               fprintf(yyout, "\tARZG\t%d\n", des + i);
+            }
           } else fprintf(yyout, "\tLEIA\n");
           // TODO #9 feito
           // Se for registro, tem que fazer uma repetição do
           // TAM do registro de escritas
-
-          if (tabSimb[pos].tip == REG){
-            for (int i = 0; i < tam; i++)
-               fprintf(yyout, "\tESCR\n");
-          } else fprintf(yyout, "\tESCR\n"); 
-           
-          fprintf(yyout, "\tARZG\t%d\n", tabSimb[pos].end);
+          fprintf(yyout, "\tARZG\t%d\n", des);
        }
    ;
 
@@ -269,8 +264,8 @@ saida
        {
           desempilha(); 
           if (tabSimb[pos].tip == REG){
-          for (int i = 0; i < tam; i++)
-             fprintf(yyout, "\tESCR\n");
+            for (int i = 0; i < tam; i++)
+              fprintf(yyout, "\tESCR\n");
           }
           // TODO #9 feito
           // Se for registro, tem que fazer uma repetição do
@@ -286,28 +281,29 @@ atribuicao
          // Tem que guardar o TAM, DES e o TIPO (POS do tipo, se for registro)
           empilha(tam);
           empilha(des);
-          empilha(tipo);
+          empilha(pos);
+          
        }
      T_ATRIB expressao
        { 
+         //mexendo aqui e no expressao acesso t identif
           int tipexp = desempilha();
           int tipvar = desempilha();
           des = desempilha();
           tam = desempilha();
-          if (tipexp != tipvar)
+          
+          if (tipvar != tipexp)
              yyerror("Incompatibilidade de tipo!");
           // TODO #11 - FEITO
           // Se for registro, tem que fazer uma repetição do
           // TAM do registro de ARZG
 
           
-          if (ehRegistro) {
-            for (int i = tam; i > 0; i--)
-               fprintf(yyout, "\tCRVG\t%d\n", des - i);
+          if (tabSimb[pos].tip == REG) {
             for (int i = 0; i < tam; i++)
                fprintf(yyout, "\tARZG\t%d\n", des + i); 
-          }
-       }
+          } else fprintf(yyout, "\tARZG\t%d\n", des);
+       } 
    ;
 
 selecao
@@ -401,21 +397,21 @@ expressao_acesso
                   tam = tabSimb[pos].tam;
                   des = tabSimb[pos].end;
                   pos = tabSimb[pos].pos;
+                  
                }
               // TODO #12
               // 1. busca o simbolo na tabela de símbolos
               // 2. se não for do tipo registro tem erro
               // 3. guardar o TAM, POS e DES desse t_IDENTIF
            } else {
-              
               int end = buscaListaEncadeadaEndereco(tabSimb[pos].campos, atomo);
               pos = buscaListaEncadeada(tabSimb[pos].campos, atomo);    
-              
               if (tabSimb[pos].tip != REG) {
                   char msg[200];
-                  sprintf(msg,"O campo [%s] não é registro", tabSimb[pos].id);
+                  sprintf(msg,"O campo [%s] não é registro", atomo);
                   yyerror(msg);
               } else {
+                  
                   tam = tabSimb[pos].tam;
                   des = des + end;
                   pos = tabSimb[pos].pos;
@@ -431,7 +427,6 @@ expressao_acesso
               tam = tabSimb[pos].tam;
               des = des + end;
               pos = tabSimb[pos].pos;
-              
                // TODO #13
                // 1. buscar esse campo na lista de campos
                // 2. Se não encontrar, erro
@@ -456,9 +451,9 @@ termo
           // Se for registro, tem que fazer uma repetição do
           // TAM do registro de CRVG (em ordem inversa)
 
-         if (ehRegistro) {
-         for (int i = tam; i > 0; i--)
-             fprintf(yyout, "\tCRVG\t%d\n", des - i);
+         if (tabSimb[pos].tip == REG) {
+         for (int i = tam-1; i >= 0; i--)
+             fprintf(yyout, "\tCRVG\t%d\n", des + i);
          } else fprintf(yyout, "\tCRVG\t%d\n", des);  
          empilha(tipo);
        }
