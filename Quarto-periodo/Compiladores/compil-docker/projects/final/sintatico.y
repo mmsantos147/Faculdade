@@ -242,10 +242,8 @@ entrada_saida
    ;
 
 entrada
-   : T_LEIA T_IDENTIF
+   : T_LEIA expressao_acesso
        { 
-          pos = buscaSimbolo (atomo);
-          tam = tabSimb[pos].tam;
           // TODO #8 feito
           // Se for registro, tem que fazer uma repetição do
           // TAM do registro de leituras
@@ -268,9 +266,7 @@ entrada
 
 saida
    : T_ESCREVA expressao
-       {  
-          pos = buscaSimbolo (atomo);
-          tam = tabSimb[pos].tam;
+       {
           desempilha(); 
           if (tabSimb[pos].tip == REG){
           for (int i = 0; i < tam; i++)
@@ -303,9 +299,13 @@ atribuicao
           // TODO #11 - FEITO
           // Se for registro, tem que fazer uma repetição do
           // TAM do registro de ARZG
+
+          
           if (ehRegistro) {
-          for (int i = 0; i < tam; i++)
-             fprintf(yyout, "\tARZG\t%d\n", des + i); 
+            for (int i = tam; i > 0; i--)
+               fprintf(yyout, "\tCRVG\t%d\n", des - i);
+            for (int i = 0; i < tam; i++)
+               fprintf(yyout, "\tARZG\t%d\n", des + i); 
           }
        }
    ;
@@ -398,10 +398,9 @@ expressao_acesso
                   sprintf(msg,"O identificador [%s] não é registro!", tabSimb[pos].id);
                   yyerror(msg);
               } else {
-                  tam = tabSimb[pos].campos->info.tam;
-                  des = tabSimb[pos].campos->info.desl;
-                  pos = tabSimb[pos].campos->info.pos;
-                  strcpy(identif, atomo);
+                  tam = tabSimb[pos].tam;
+                  des = tabSimb[pos].end;
+                  pos = tabSimb[pos].pos;
                }
               // TODO #12
               // 1. busca o simbolo na tabela de símbolos
@@ -409,43 +408,30 @@ expressao_acesso
               // 3. guardar o TAM, POS e DES desse t_IDENTIF
            } else {
               
-              if (buscaListaEncadeada(tabSimb[buscaSimbolo(identif)].campos, listaCampos) == NULL) {
-                  char msg[200];
-                  sprintf(msg,"O campo [%s] não é registro", tabSimb[pos].id);
-                  yyerror(msg);
-              } else if(buscaListaEncadeada(tabSimb[buscaSimbolo(identif)].campos, listaCampos) && tabSimb[buscaSimbolo(identif)].campos->info.tip != REG) {
+              int end = buscaListaEncadeadaEndereco(tabSimb[pos].campos, atomo);
+              pos = buscaListaEncadeada(tabSimb[pos].campos, atomo);    
+              
+              if (tabSimb[pos].tip != REG) {
                   char msg[200];
                   sprintf(msg,"O campo [%s] não é registro", tabSimb[pos].id);
                   yyerror(msg);
               } else {
-                  pos = buscaSimbolo(identif);
-                  tam = tabSimb[pos].campos->info.tam;
-                  des = tabSimb[pos].campos->info.desl;
-                  pos = tabSimb[pos].campos->info.pos;
-                  strcpy(identif, atomo);
-               }
-              //--- Campo que eh registro
-              // 1. busca esse campo na lista de campos
-              // 2. se não encontrar, erro
-              // 3. se encontrar e não for registro, erro 
-              // 4. guardar o TAM, POS e DES desse CAMPO
+                  tam = tabSimb[pos].tam;
+                  des = des + end;
+                  pos = tabSimb[pos].pos;
+              }
            }
        }
      expressao_acesso
    | T_IDENTIF
        {   
            if (ehRegistro) {
-              strcpy(listaCampos.id, atomo);
+              int end = buscaListaEncadeadaEndereco(tabSimb[pos].campos, atomo);
+              pos = buscaListaEncadeada(tabSimb[pos].campos, atomo);    
+              tam = tabSimb[pos].tam;
+              des = des + end;
+              pos = tabSimb[pos].pos;
               
-              if (!buscaListaEncadeada(tabSimb[pos].campos, listaCampos)) {
-                  char msg[200];
-                  sprintf(msg, "O campo [%s] não existe na estrutura", atomo);
-                  yyerror(msg);
-              } else {
-                  tam = tabSimb[pos].campos->info.tam;
-                  des = tabSimb[pos].campos->info.desl;
-                  pos = tabSimb[pos].campos->info.pos;
-              }
                // TODO #13
                // 1. buscar esse campo na lista de campos
                // 2. Se não encontrar, erro
@@ -454,6 +440,7 @@ expressao_acesso
                //    na tabela de simbolos
            } else {
               // TODO #14
+              pos = buscaSimbolo(atomo);
               tam = tabSimb[pos].tam;
               des = tabSimb[pos].end;
               pos = tabSimb[pos].pos;
@@ -471,8 +458,8 @@ termo
 
          if (ehRegistro) {
          for (int i = tam; i > 0; i--)
-             fprintf(yyout, "\tCRVG\t%d\n", tabSimb[i].end);
-         } else fprintf(yyout, "\tCRVG\t%d\n", tabSimb[pos].end);  
+             fprintf(yyout, "\tCRVG\t%d\n", des - i);
+         } else fprintf(yyout, "\tCRVG\t%d\n", des);  
          empilha(tipo);
        }
    | T_NUMERO

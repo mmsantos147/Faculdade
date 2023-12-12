@@ -51,10 +51,26 @@ ptno insereListaEncadeada(struct listaEncadeada registro, ptno list) {
     return list;
 }
 
-ptno buscaListaEncadeada(ptno lista, struct listaEncadeada registro) {
-    while (lista != NULL && strcmp(lista->info.id, registro.id) != 0)
+int buscaListaEncadeada(ptno lista, char* registro) {
+    while (lista != NULL && strcmp(lista->info.id, registro) != 0)
         lista = lista->prox;
-    return lista;
+    if(!lista){
+        char msg[200];
+        sprintf(msg,"O campo [%s] não é registro", registro);
+        yyerror(msg);
+    }
+    return lista->info.pos;
+}
+
+int buscaListaEncadeadaEndereco(ptno lista, char* registro) {
+    while (lista != NULL && strcmp(lista->info.id, registro) != 0)
+        lista = lista->prox;
+    if(!lista){
+        char msg[200];
+        sprintf(msg,"O campo [%s] não é registro", registro);
+        yyerror(msg);
+    }
+    return lista->info.desl;
 }
 
 void mostra(ptno lista) {
@@ -77,10 +93,9 @@ struct elemTabSimbolos
     char id[100]; // nome do identificador
     int end;      // endereco
     int tip;      // tipo
-    int tam;
-    int pos;
-    struct no* campos;
-    // fazer lista encadeada ou string
+    int tam;      // tamanho
+    int pos;      // posição na tabela
+    struct no* campos;  //lista de campos
 } tabSimb[TAM_TAB], elemTab;
 
 int posTab = 0; // indica a proxima posicao livre para insercao
@@ -130,7 +145,6 @@ int inserePrimitivo() {
     logico.campos = NULL;
     tabSimb[posTab] = logico;
     posTab ++;
-    
     return posTab;
 }
 
