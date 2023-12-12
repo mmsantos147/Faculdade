@@ -52,7 +52,7 @@ ptno insereListaEncadeada(struct listaEncadeada registro, ptno list) {
 }
 
 ptno buscaListaEncadeada(ptno lista, struct listaEncadeada registro) {
-    while (lista && strcmp(lista->info.id, registro.id) != 0)
+    while (lista != NULL && strcmp(lista->info.id, registro.id) != 0)
         lista = lista->prox;
     return lista;
 }
@@ -130,6 +130,7 @@ int inserePrimitivo() {
     logico.campos = NULL;
     tabSimb[posTab] = logico;
     posTab ++;
+    
     return posTab;
 }
 
