@@ -251,11 +251,14 @@ entrada
                fprintf(yyout, "\tLEIA\n");
                fprintf(yyout, "\tARZG\t%d\n", des + i);
             }
-          } else fprintf(yyout, "\tLEIA\n");
+          } else {
+            fprintf(yyout, "\tLEIA\n");
+            fprintf(yyout, "\tARZG\t%d\n", des);
+          } 
           // TODO #9 feito
           // Se for registro, tem que fazer uma repetição do
           // TAM do registro de escritas
-          fprintf(yyout, "\tARZG\t%d\n", des);
+          
        }
    ;
 
@@ -364,10 +367,7 @@ expressao
          fprintf(yyout, "\tDIVI\n");
        }
    | expressao T_MAIS expressao
-      { 
-         testaTipo(INT,INT,INT); 
-         fprintf(yyout, "\tSOMA\n");  
-      }
+      { testaTipo(INT,INT,INT); fprintf(yyout, "\tSOMA\n"); }
    | expressao T_MENOS expressao
       {  testaTipo(INT,INT,INT); fprintf(yyout, "\tSUBT\n");  }
    | expressao T_MAIOR expressao
@@ -455,7 +455,7 @@ termo
          for (int i = tam-1; i >= 0; i--)
              fprintf(yyout, "\tCRVG\t%d\n", des + i);
          } else fprintf(yyout, "\tCRVG\t%d\n", des);  
-         empilha(tipo);
+         empilha(pos);
        }
    | T_NUMERO
        {  
