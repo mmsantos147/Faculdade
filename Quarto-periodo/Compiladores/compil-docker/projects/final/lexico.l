@@ -1,4 +1,14 @@
 %{
+/*+=============================================================
+| UNIFAL = Universidade Federal de Alfenas
+| BACHARELADO EM CIENCIA DA COMPUTACAO.
+| Trabalho..: Registro e verificacao de tipos
+| Disciplina: Teoria de Linguagens e Compiladores
+| Professor.: Luiz Eduardo da Silva
+| Aluno.....: Matheus Martins dos Santos
+| Data......: 12/12/2023
++===============================================================*/
+
 #include "sintatico.h"
 int yyerror(char *);
 int numLinha = 1;

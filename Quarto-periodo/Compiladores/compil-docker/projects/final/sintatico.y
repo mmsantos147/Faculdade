@@ -1,4 +1,15 @@
 %{
+/*+=============================================================
+| UNIFAL = Universidade Federal de Alfenas
+| BACHARELADO EM CIENCIA DA COMPUTACAO.
+| Trabalho..: Registro e verificacao de tipos
+| Disciplina: Teoria de Linguagens e Compiladores
+| Professor.: Luiz Eduardo da Silva
+| Aluno.....: Matheus Martins dos Santos
+| Data......: 12/12/2023
++===============================================================*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -397,7 +408,7 @@ expressao_acesso
                   tam = tabSimb[pos].tam;
                   des = tabSimb[pos].end;
                   pos = tabSimb[pos].pos;
-                  
+                   
                }
               // TODO #12
               // 1. busca o simbolo na tabela de símbolos

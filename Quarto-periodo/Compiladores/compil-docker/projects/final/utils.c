@@ -1,5 +1,14 @@
-// Tabela de Simbolos 
+/*+=============================================================
+| UNIFAL = Universidade Federal de Alfenas
+| BACHARELADO EM CIENCIA DA COMPUTACAO.
+| Trabalho..: Registro e verificacao de tipos
+| Disciplina: Teoria de Linguagens e Compiladores
+| Professor.: Luiz Eduardo da Silva
+| Aluno.....: Matheus Martins dos Santos
+| Data......: 12/12/2023
++===============================================================*/
 
+//Enumerador de tipos primitivos
 enum
 {
     INT,
@@ -11,27 +20,24 @@ char nomeTipo[3][4]= {
     "INT", "LOG", "REG"
 };
 
-//Criar estruturas e operacoes para manipular campos
-
+// Lista encadeada e cabeçalho
 typedef struct no* ptno;
 
 struct listaEncadeada
 {
-    char id[100];
-    int tip;
-    int pos;
-    int desl;
-    int tam;
+    char id[100]; // Identificador da variavel
+    int tip;      // Tipo da variaveis 
+    int pos;      // Posição da variaveis na tabela
+    int desl;     // Deslocamento da variavel
+    int tam;      // Tamanho da variavel
 
 } listaEncad, listaCampos;
 
 struct no {
-    struct listaEncadeada info;
+    struct listaEncadeada info; //Aponta pra lista encadeada
     ptno prox;
 };
 
-void iniciaLista(ptno lista){}
-//testar
 ptno insereListaEncadeada(struct listaEncadeada registro, ptno list) {
     ptno p, new;
     new = (ptno)malloc(sizeof (struct no));
@@ -87,18 +93,18 @@ void mostra(ptno lista) {
 #define TAM_TAB 100
 
 
-//Adicionar campos na tabela
+// Tabela de Simbolos
 struct elemTabSimbolos
 {
-    char id[100]; // nome do identificador
-    int end;      // endereco
-    int tip;      // tipo
-    int tam;      // tamanho
-    int pos;      // posição na tabela
-    struct no* campos;  //lista de campos
+    char id[100];       // Nome do identificador
+    int end;            // Endereco
+    int tip;            // Tipo
+    int tam;            // Tamanho
+    int pos;            // Posição na tabela
+    struct no* campos;  // Nó para a lista de campos
 } tabSimb[TAM_TAB], elemTab;
 
-int posTab = 0; // indica a proxima posicao livre para insercao
+int posTab = 0; // Indica a proxima posicao livre para insercao
 
 int buscaSimbolo (char *s) {
     int i;
@@ -161,6 +167,7 @@ int insereRegistro(char *s, int tam, ptno lista) {
     posTab++;
     return posTab;
 }
+
 void mostraTabela()
 {
     puts("-----------------------TABELA DE SIMBOLOS------------------------");
@@ -179,7 +186,6 @@ void mostraTabela()
         printf("\n");
     puts("");
 }
-
 
 // Pilha Semantica
 #define TAM_PILHA 100
