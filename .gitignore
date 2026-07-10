@@ -1,0 +1,27 @@
+# Build - Java
+target/
+build/
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+.gradle/
+
+# Build - C/C++
+*.o
+*.obj
+*.exe
+*.out
+
+# Python
+__pycache__/
+*.pyc
+*.pyd
+# Ambientes virtuais
+venv/
+.venv/
+Quinto-periodo/Processamento-de-Imagens/teste/
+
+# IDEs
+.idea/
+*.iml
+.vscode/

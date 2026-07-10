@@ -1,2 +1,0 @@
-# Estudos sobre MySQL
----
